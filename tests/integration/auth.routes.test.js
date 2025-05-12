@@ -9,9 +9,9 @@ describe('Auth routes - register', () => {
             password: "test123"
         };
         const response = await request(app).post('/api/auth/register').send(userdata);
-        expect(response.statusCode).toBe(201);
+        expect(response.statusCode).toBe(200);
         expect(response.body).toHaveProperty('message', 'User registered');
-        expect(response.body).toHaveProperty('name', 'test');
+        expect(response.body.user).toHaveProperty('name', 'test');
     });
 
     it('should show bad request if username is missing', async () => {

@@ -1,0 +1,21 @@
+{
+  "development": {
+    "username": "sanjiv",
+    "password": "sanjiv",
+    "database": "miniblog",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": ":memory:",
+    "logging": false
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
