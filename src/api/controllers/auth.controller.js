@@ -10,12 +10,16 @@ export const registerUser = async (req, res, next) => {
             throw error;
         }
 
-        const existingUser = await findUserByEmail(email);
+        const existingUser = await findUserByEmail(email, name);
         if (!existingUser) {
             const user = await createUser({name: name, email: email, password: password});
             res.status(200).json({
                 message: "User registered",
                 user: user
+            });
+        } else {
+            res.status(400).json({
+                message: "Duplicate User"
             });
         }
         

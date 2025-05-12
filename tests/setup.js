@@ -7,6 +7,10 @@ beforeAll(async () => {
     await db.sequelize.sync({force: true});
 });
 
+beforeEach(async () => {
+    await db.User.destroy({truncate: true});
+})
+
 afterAll(async () => {
     await db.sequelize.close();
 })

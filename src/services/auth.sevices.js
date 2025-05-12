@@ -12,9 +12,12 @@ export const createUser = async (userData) => {
     }
 }
 
-export const findUserByEmail = async (email) => {
+export const findUserByEmail = async (email, name) => {
     try {
-        const user = await User.findOne({where: {email: email}});
+        const user = await User.findOne({
+            where: {
+                [db.Sequelize.Op.or]: [{email}, {name}]
+            }});
         return user;
     } catch (error) {
         throw error;

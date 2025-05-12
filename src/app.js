@@ -8,7 +8,7 @@ app.use("/api/auth", authRoutes);
 
 // error handler
 app.use((err, req, res, next) => {
-    console.log(err.stack);
+    console.log(err.message);
     res.status(err.statusCode || 500).json({message: err.message || 'Internal server error'});
 });
 

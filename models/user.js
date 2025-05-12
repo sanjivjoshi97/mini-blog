@@ -16,7 +16,10 @@ export default (sequelize, DataTypes) => {
   User.init({
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        is: /^[a-z]{5}_[0-9]{2}$/i
+      }
     },
     email: {
       type: DataTypes.STRING,
