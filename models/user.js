@@ -12,6 +12,10 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    async isValidPassword(givenPassword) {
+      return await bcrypt.compare(givenPassword, this.password);
+    }
   }
   User.init({
     name: {

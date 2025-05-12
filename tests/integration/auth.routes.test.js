@@ -22,7 +22,14 @@ describe('Auth routes - register', () => {
         };
         const response = await request(app).post('/api/auth/register').send(userdata);
         expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty('message', expect.stringContaining('User name is required!'));
+        expect(response.body.errors).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    field: "name",
+                    message: "Username cannot be empty"
+                })
+            ])
+        );
     });
 
     it("should not allow duplicate user by email", async () => {
@@ -50,5 +57,44 @@ describe('Auth routes - register', () => {
         }
         const res = await request(app).post("/api/auth/register").send(testuser);
         expect(res.body).toHaveProperty('message', expect.stringContaining("Validation"));
+    });
+})
+
+describe("Auth login - suite", () => {
+    it("should login and give jwt token in return", async () => {
+        const testuser = {
+            name: "testu_01",
+            email: "test@example.com",
+            password: "password"
+        }
+
+        const user = await request(app).post("/api/auth/register").send(testuser);
+        if (user) {
+            const logincred = {
+                email: "test@example.com",
+                password: "password"
+            }
+            const res = await request(app).post("/api/auth/login").send(logincred);
+            expect(res.statusCode).toBe(200);
+            expect(res.body).toHaveProperty('token');
+        }
+    })
+
+    it("should say bad request if login credentials are missing", async () => {
+        const payload = {
+            email: "test@example.com",
+            password: ""
+        }
+        const res = await request(app).post("/api/auth/login").send(payload);
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Validation failed");
+        expect(res.body.errors).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    field: "password",
+                    message: "Password is required"
+                })
+            ])
+        );
     });
 })

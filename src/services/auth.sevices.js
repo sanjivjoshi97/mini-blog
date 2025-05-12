@@ -1,6 +1,13 @@
 import db from "../../models";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const User = db.User;
+const JWT_SECRET = process.env.JWT_SECRET;
+console.log("secret => ", JWT_SECRET);
+
 
 export const createUser = async (userData) => {
     try {
@@ -21,5 +28,20 @@ export const findUserByEmail = async (email, name) => {
         return user;
     } catch (error) {
         throw error;
+    }
+}
+
+export const authenticateUser = async (email, password) => {
+    const user = await User.findOne({where: { email }});
+    if (user) {
+        if (user.isValidPassword(password)) {
+            const { email, name, id } = user;
+            const payload = {
+                email: email,
+                name: name,
+                id: id
+            }
+            return jwt.sign(payload, JWT_SECRET, {expiresIn: '1h'});
+        } 
     }
 }
