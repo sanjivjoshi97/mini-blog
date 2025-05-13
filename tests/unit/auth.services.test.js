@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { beforeEach, jest } from '@jest/globals';
 
 const mockSign = jest.fn();
 jest.unstable_mockModule('jsonwebtoken', () => {
@@ -119,4 +119,31 @@ describe("To register a non existing user", () => {
         expect(mockUserCreate).toHaveBeenCalledWith({name: mockName, email: mockEmail, password: mockPassword})
         expect(newUser).toHaveProperty("id", 1);
     })
+})
+
+describe("get existing user profile", () => {
+    beforeEach(async() => {
+        jest.clearAllMocks();
+    });
+    it("gets an existing user profile", async () => {
+        const id = 1;
+        const username = "testuser";
+        const email = "test@example.com";
+        const password = "password";
+        const user = {
+            name: username,
+            id: 1,
+            email: email,
+            password: password
+        }
+        const usertest = {
+            name: username,
+            id: 1,
+            email: email
+        }
+        mockUserFindOne.mockReturnValue(user);
+        const output = await authService.getUserProfile(id);
+        expect(mockUserFindOne).toHaveBeenCalledWith({where: {id: id}});
+        expect(output).toEqual(usertest);
+    });
 })

@@ -8,7 +8,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-    await db.User.destroy({truncate: true});
+    await db.User.destroy({truncate: true, cascade: true});
 })
 
 afterAll(async () => {

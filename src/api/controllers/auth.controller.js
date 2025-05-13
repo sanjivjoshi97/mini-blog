@@ -1,4 +1,4 @@
-import { createUser, findUserByEmail, authenticateUser } from "../../services/auth.sevices";
+import { createUser, findUserByEmail, authenticateUser, getUserProfile } from "../../services/auth.sevices";
 
 export const registerUser = async (req, res, next) => {
     try {
@@ -29,13 +29,31 @@ export const loginUser = async (req, res, next) => {
             res.status(200).json({token: token});
         } else {
            const error = new Error("Invalid credentials");
-           error.statusCode = 400;
+           error.status = 400;
            throw error;
         }
     } catch (error) {
-        if (!error.statusCode) {
-            error.statusCode = 500;
+        if (!error.status) {
+            error.status = 500;
         }
         next(error);
     }
 };
+
+export const userProfile = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        if (!id) {
+            const err = new Error("ID is required");
+            err.status = 400;
+            throw err;
+        }
+        const resp = await getUserProfile(id);
+        if (!resp) {
+            res.status(404).json({message: `ID ${id} not found in DB`});
+        }
+        res.status(200).json({message: "Profile found", user: resp});
+    } catch(error) {
+        next(error);
+    }
+}

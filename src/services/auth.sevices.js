@@ -45,3 +45,16 @@ export const authenticateUser = async (email, password) => {
         } 
     }
 }
+
+export const getUserById = async (id) => {
+    const user = await User.findOne({where: {id: id}});
+    return user;
+};
+
+export const getUserProfile = async (id) => {
+    const user = await getUserById(id);
+    if (user) {
+        const {id, name, email} = user;
+        return {id, name, email};
+    }
+}

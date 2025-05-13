@@ -98,3 +98,24 @@ describe("Auth login - suite", () => {
         );
     });
 })
+
+describe("Profile suite", () => {
+    it("should show profile of existing user", async () => {
+        const user = "testu_09";
+        const email = "test@example.com"
+        const password = "password"
+        const userinfo = {
+            name: user,
+            email: email,
+            password: password
+        }
+        const info = await request(app).post("/api/auth/register").send(userinfo);
+        expect(info.status).toBe(200);
+        if (info.status == 200) {
+            const res = await request(app).post("/api/auth/login").send({email: email, password: password});
+            expect(res.status).toBe(200);
+            const user = await request(app).get(`/api/auth/profile/${info.body.user.id}`).set("authorization", `Bearer ${res.body.token}`);
+            expect(user.body.message).toBe("Profile found");
+        }
+    })
+})
