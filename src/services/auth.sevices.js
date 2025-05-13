@@ -6,8 +6,6 @@ dotenv.config();
 
 const User = db.User;
 const JWT_SECRET = process.env.JWT_SECRET;
-console.log("secret => ", JWT_SECRET);
-
 
 export const createUser = async (userData) => {
     try {
