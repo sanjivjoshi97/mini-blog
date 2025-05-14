@@ -1,4 +1,4 @@
-import db from "../../models";
+import db from "../../models/index.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 

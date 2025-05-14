@@ -2,7 +2,8 @@ import { readdirSync } from 'fs';
 import { basename, join, dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 import Sequelize, { DataTypes } from 'sequelize';
-import configRaw from '../config/config.json';
+import configRaw from '../config/config.json' with {type: 'json'};
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

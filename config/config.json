@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "$process.env.DB_UNAME",
-    "password": "$process.env.DB_PASS",
-    "database": "$process.env.DB_NAME",
+    "username": "sanjiv",
+    "password": "sanjiv",
+    "database": "miniblog",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

@@ -1,4 +1,4 @@
-import { createUser, findUserByEmail, authenticateUser, getUserProfile } from "../../services/auth.sevices";
+import { createUser, findUserByEmail, authenticateUser, getUserProfile } from "../../services/auth.sevices.js";
 
 export const registerUser = async (req, res, next) => {
     try {
