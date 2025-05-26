@@ -57,3 +57,10 @@ export const userProfile = async (req, res, next) => {
         next(error);
     }
 }
+
+export const homepage = async (req, res, next) => {
+    res.render('index', {
+        interviewer: 'interviewer'
+    })
+    next();
+}

@@ -117,5 +117,22 @@ describe("Profile suite", () => {
             const user = await request(app).get(`/api/auth/profile/${info.body.user.id}`).set("authorization", `Bearer ${res.body.token}`);
             expect(user.body.message).toBe("Profile found");
         }
+    });
+
+    it("should show id required for retrieving user", async () => {
+        const name = "testu_09";
+        const email = "test@example.com"
+        const password = "password"
+        const userinfo = {
+            name: name,
+            email: email,
+            password: password
+        }
+        const info = await request(app).post("/api/auth/register").send(userinfo);
+        expect(info.status).toBe(200);
+        const res = await request(app).post("/api/auth/login").send({email: email, password: password});
+        expect(res.status).toBe(200);
+        const user = await request(app).get(`/api/auth/profile/%20`).set("authorization", `Bearer ${res.body.token}`);
+        expect(user.status).toBe(400);
     })
 })

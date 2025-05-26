@@ -1,4 +1,4 @@
-import { body, validationResult } from 'express-validator';
+import { body, param, validationResult } from 'express-validator';
 
 export const validateLogin = [
     body('email').trim().notEmpty().withMessage("Email is required"),
@@ -34,4 +34,19 @@ export const validateRegister = [
         }
         next();
     }
+]
+
+export const validateId = [
+    param("id").trim().notEmpty().withMessage("ID cannot be empty"),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const formattedErrors = errors.array().map(err => ({
+                field: err.msg,
+                path: err.path
+            }))
+            res.status(400).json({errors: formattedErrors});
+        }
+        next();  
+    }    
 ]
